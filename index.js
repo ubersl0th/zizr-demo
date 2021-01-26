@@ -45,16 +45,16 @@ console.log(nanoid(4));
                       (:Person {id: "b32w"})`);
     });
 
-    // PRODUCTS HERE
+    // create products
     await session.writeTransaction((tx) => {
-      tx.run(`LOAD CSV FROM 'C:\\Users\\eivin\\code\\Zizr SVT Demo\\test.csv' AS line
-            CREATE (:Artist { name: line[1], year: toInteger(line[2])})`);
+      tx.run(
+        `LOAD CSV FROM 'https://raw.githubusercontent.com/ubersl0th/zizr-demo/main/products.csv' AS line
+            CREATE (:Product { id: line[0], model: line[1], category: line[2], size: line[3]})`
+      );
     });
 
     // create relations
-    await session.writeTransaction((tx) => {
-      tx.run("MATCH (n) DETACH DELETE n");
-    });
+    await session.writeTransaction((tx) => {});
   } catch (e) {
     console.log(e);
   } finally {

@@ -48,13 +48,12 @@ const neo4j = require("neo4j-driver");
     );
 
     // create relations from csv
-    var result = await session.writeTransaction((tx) =>
+    await session.writeTransaction((tx) =>
       tx.run(
         `LOAD CSV FROM 'https://raw.githubusercontent.com/ubersl0th/zizr-demo/main/relations.csv' AS line
         MATCH (u:User),(p:Product) WHERE u.userId = line[0] AND p.productId = line[1] CREATE (u)-[:OWNS]->(p)`
       )
     );
-    console.log(result.summary);
   } catch (e) {
     console.log(e);
   } finally {

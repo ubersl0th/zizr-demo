@@ -49,12 +49,14 @@ console.log(nanoid(4));
     await session.writeTransaction((tx) => {
       tx.run(
         `LOAD CSV FROM 'https://raw.githubusercontent.com/ubersl0th/zizr-demo/main/products.csv' AS line
-            CREATE (:Product { id: line[0], model: line[1], category: line[2], size: line[3]})`
+        CREATE (:Product { id: line[0], model: line[1], category: line[2], size: line[3]})`
       );
     });
 
     // create relations
-    await session.writeTransaction((tx) => {});
+    await session.writeTransaction((tx) => {
+      // merge relations here
+    });
   } catch (e) {
     console.log(e);
   } finally {

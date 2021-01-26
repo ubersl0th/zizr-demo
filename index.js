@@ -1,7 +1,4 @@
 const neo4j = require("neo4j-driver");
-const { nanoid } = require("nanoid");
-
-console.log(nanoid(4));
 
 //IIF
 (async function () {

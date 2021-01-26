@@ -36,6 +36,8 @@ const neo4j = require("neo4j-driver");
                       (:User {userId: "f72m"}),
                       (:User {userId: "o4d1"}),
                       (:User {userId: "gz3c"}),
+                      (:User {userId: "hf0l"}),
+                      (:User {userId: "p91t"}),
                       (:User {userId: "b32w"})`);
     });
 

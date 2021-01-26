@@ -26,7 +26,7 @@ console.log(nanoid(4));
     // create contraints
     await session.writeTransaction((tx) => {
       tx.run(
-        "CREATE CONSTRAINT IF NOT EXISTS ON (p:Person) ASSERT p.id IS UNIQUE"
+        "CREATE CONSTRAINT IF NOT EXISTS ON (u:User) ASSERT u.id IS UNIQUE"
       );
       tx.run(
         "CREATE CONSTRAINT IF NOT EXISTS ON (p:Product) ASSERT p.id IS UNIQUE"
@@ -35,17 +35,14 @@ console.log(nanoid(4));
 
     // create som users
     await session.writeTransaction((tx) => {
-      // for (let index = 0; index < 15; index++) {
-      //   tx.run(`CREATE (:Person {id: "${nanoid(4)}"})`);
-      // }
-      tx.run(`CREATE 	(:Person {id: "a4dz"}),
-                      (:Person {id: "f72m"}),
-                      (:Person {id: "o4d1"}),
-                      (:Person {id: "gz3c"}),
-                      (:Person {id: "b32w"})`);
+      tx.run(`CREATE 	(:User {id: "a4dz"}),
+                      (:User {id: "f72m"}),
+                      (:User {id: "o4d1"}),
+                      (:User {id: "gz3c"}),
+                      (:User {id: "b32w"})`);
     });
 
-    // create products
+    // create products from csv
     await session.writeTransaction((tx) => {
       tx.run(
         `LOAD CSV FROM 'https://raw.githubusercontent.com/ubersl0th/zizr-demo/main/products.csv' AS line
@@ -53,9 +50,12 @@ console.log(nanoid(4));
       );
     });
 
-    // create relations
+    // create relations from csv
     await session.writeTransaction((tx) => {
-      // merge relations here
+      tx.run(
+        `LOAD CSV FROM 'https://raw.githubusercontent.com/ubersl0th/zizr-demo/main/relations.csv' AS line
+        MATCH (u:User),(p:Product) WHERE u.id = line[0] AND p.id = line[1] MERGE (u)-[:OWNS]->(p)`
+      );
     });
   } catch (e) {
     console.log(e);
